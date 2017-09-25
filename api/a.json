@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "team_name": "segmentaion fault",
+        "mentor": "pk das",
+        "mem1": "namit",
+        "mem2": "sanchit",
+        "mem3": "jatin",
+        "member_nos": 3
+    },
+    {
+        "id": 2,
+        "team_name": "ghissus",
+        "mentor": "john jose",
+        "mem1": "sujoy",
+        "mem2": "akul",
+        "mem3": "mitansh",
+        "member_nos": 3
+    },
+    {
+        "id": 3,
+        "team_name": "code dumped",
+        "mentor": "pk das",
+        "mem1": "kapil",
+        "mem2": "sahib",
+        "mem3": "vivek",
+        "member_nos": 3
+    }
+]
