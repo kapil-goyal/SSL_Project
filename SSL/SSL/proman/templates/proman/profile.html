@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}<title>Profile</title>{% endblock %}
+{% block body %}
+<div class="container" >
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">My Profile</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav ">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Page 1</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <br>
+    <br>
+    <br>
+    <h1>
+        Your Profile:
+    </h1>
+    <p> Username: {{user}}</p>
+    <p> FirstName: {{user.first_name}}</p>
+    <p> LastName: {{user.last_name}}</p>
+    <p> Email: {{user.email}}</p>
+    <p> Location: {{user.userprofile.fname}}</p>
+    <p> Location: {{user.userprofile.mname}}</p>
+    <p> Location: {{user.userprofile.lname}}</p>
+</div>
+{% endblock %}

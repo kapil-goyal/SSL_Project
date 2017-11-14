@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}<title>Edit Profile</title>{% endblock %}
+{% block body %}
+<div class="container" >
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Edit Profile</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav ">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Page 1</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'view_profile' %}">View Profile</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <br>
+    <br>
+    <br>
+    <h1>
+        Edit Profile:
+    </h1>
+    <form class="form-horizontal"  method="POST" action="{% url 'edit_profile' %}">{% csrf_token %}
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="title">Title:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="title" placeholder="Pr./Dr." name="title" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="fname">First Name:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="fname" placeholder="First Name" name="fname" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="mname">Middle Name:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="mname" placeholder="Middle Name" name="mname" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="lname">Last Name:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="lname" placeholder="Last Name" name="lname" required>
+            </div>
+        </div>
+
+         <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email:</label>
+            <div class="col-sm-4">
+                <input type="email" class="form-control" id="email" placeholder="Email" name="email" required>
+            </div>
+        </div>
+        {{ form.dep }}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+    <h1>
+        Add Course:
+    </h1>
+    <form class="form-horizontal"  method="POST" action="{% url 'add_course' %}">{% csrf_token %}
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="year">Year:</label>
+            <div class="col-sm-4">
+                <input type="number" class="form-control" id="year" placeholder="Year" name="year" required>
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="control-label col-sm-2" for="semester">Semester:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="semester" placeholder="Odd/Even" name="semester" required>
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Name of course:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="name" placeholder="" name="name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="course_code">Code:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="course_code" placeholder="" name="course_code" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

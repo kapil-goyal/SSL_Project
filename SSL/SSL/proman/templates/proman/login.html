@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style.css'  %}">
+<style>
+        header {
+        height: 90px;
+        padding: 0.5em;
+        color: white;
+        background-color: #006699;
+        text-align: center;
+        }
+</style>
+  
+</head>
+
+<body>
+<header>
+    {% load static %}
+    <img src="{% static 'login/iitg.png' %}" height="75px" align="left" >
+    <h1 style="font-size:200%;margin-top:20px;">Indian Institute of Technology, Guwahati</h1>
+</header>
+  <!--<a class="view__more" href="http://machycek.com" target="_blank">view more</a>-->
+<div class="panel">
+  <ul class="panel__menu" id="menu">
+    <hr/>
+    <li id="signIn"> <a href="#">Login</a></li>
+    <li id="signUp"><a href="#">Sign up</a></li>
+  </ul>
+  <div class="panel__wrap">
+       <div class="panel__box active" id="signInBox">
+     <form action="/proman/login/" method="POST">{% csrf_token %}
+      <label>Username
+        <input type="email" placeholder="Username" name="username" />
+      </label>
+      <label>Password
+        <input type="password" placeholder="Password" name="password" />
+      </label>
+      <input type="submit" value="Login"/>
+     </form>
+       </div>
+    <div class="panel__box" id="signUpBox">
+    <form action="/proman/register/" method="POST">{% csrf_token %}
+      <label>Username
+        <input type="email" placeholder="Webmail ID" name="username" />
+      </label>
+      <label>Password
+        <input type="password" placeholder="Create Password" name="password1" />
+      </label>
+      <label>Confirm password
+        <input type="password" placeholder="Confirm Password" name="password2" />
+      </label>
+      <input type="submit"/>
+    </form>
+    </div>
+  </div>
+</div>
+
+    {% load staticfiles %}
+    <script  src="{% static 'index.js' %}"></script>
+
+</body>
+</html>
