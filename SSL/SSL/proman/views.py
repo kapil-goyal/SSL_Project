@@ -56,6 +56,11 @@ def edit_profile(request):
             inst.lname = form.cleaned_data['lname']
             inst.email = form.cleaned_data['email']
             inst.dep = form.cleaned_data.get('dep')
+            inst.desig = form.cleaned_data['desig']
+            inst.descrip = form.cleaned_data['descrip']
+            inst.office = form.cleaned_data['office']
+            inst.phn_no = form.cleaned_data['phn_no']
+            inst.resid = form.cleaned_data['resid']
             inst.save()
             return redirect('/proman/profile/')
         # else:

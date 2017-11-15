@@ -10,6 +10,11 @@ class EditProfileForm(forms.Form):
     lname = forms.CharField(max_length=200)
     email = forms.EmailField(max_length=200)
     dep = forms.ModelChoiceField(queryset=department.objects.all())
+    desig = forms.CharField(max_length=200)
+    descrip = forms.CharField(max_length=500,widget=forms.Textarea)
+    office = forms.CharField(max_length=50)
+    phn_no = forms.IntegerField()
+    resid = forms.CharField(max_length=200)
 
 class addCourse(forms.Form):
     year = forms.IntegerField()
