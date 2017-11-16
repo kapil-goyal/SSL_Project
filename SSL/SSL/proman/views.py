@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import EditProfileForm, addCourse
-from .models import course, UserProfile
+from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm
+from .models import course, UserProfile, edu, workExp
 
 def index(request):
     return render(request,'proman/home.html'
@@ -49,6 +49,8 @@ def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST)
         inst = UserProfile.objects.get(user=request.user)
+        if(request.user.userprofile.image != ""):
+            inst.image = request.user.userprofile.image
         if form.is_valid():
             inst.title = form.cleaned_data['title']
             inst.fname = form.cleaned_data['fname']
@@ -73,16 +75,27 @@ def edit_profile(request):
             {'form' : form}
         )
 
+def upload_pic(request):
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            m = UserProfile.objects.get(user=request.user)
+            m.image = form.cleaned_data['image']
+            m.save()
+            return redirect('/proman/profile/')
+    # return HttpResponseForbidden('allowed only via POST')
+
 def edit_profile_addcourse(request):
     if request.method == 'POST':
         form = addCourse(request.POST)
         instance = course.objects.create()
         if form.is_valid():
-            instance.year = form.cleaned_data['year']
+            instance.startYear = form.cleaned_data['startYear']
+            instance.endYear = form.cleaned_data['endYear']
             instance.semester = form.cleaned_data['semester']
             instance.name = form.cleaned_data['name']
             instance.course_code = form.cleaned_data['course_code']
-            instance.prof = request.user
+            instance.user = request.user.userprofile
             instance.save()
             return redirect('/proman/profile/')
     else:
@@ -93,4 +106,44 @@ def edit_profile_addcourse(request):
             {'form' : form}
         )
 
+def edit_profile_addedu(request):
+    if request.method == 'POST':
+        form_edu = eduForm(request.POST)
+        instance = edu.objects.create()
+        if form_edu.is_valid():
+            instance.college = form_edu.cleaned_data['college']
+            instance.degree = form_edu.cleaned_data['degree']
+            instance.descrip = form_edu.cleaned_data['descrip']
+            instance.startTime = form_edu.cleaned_data['startTime']
+            instance.endTime = form_edu.cleaned_data['endTime']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = eduForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )
 
+def edit_profile_addexp(request):
+    if request.method == 'POST':
+        form_edu = exForm(request.POST)
+        instance = workExp.objects.create()
+        if form_edu.is_valid():
+            instance.desig = form_edu.cleaned_data['desig']
+            instance.firm = form_edu.cleaned_data['firm']
+            instance.descrip = form_edu.cleaned_data['descrip']
+            instance.startTime = form_edu.cleaned_data['startTime']
+            instance.endTime = form_edu.cleaned_data['endTime']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = exForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )

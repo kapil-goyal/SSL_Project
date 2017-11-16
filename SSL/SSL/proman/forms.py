@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 from .models import UserProfile , course, department
 
+class ImageUploadForm(forms.Form):
+    image = forms.ImageField()
+
 class EditProfileForm(forms.Form):
     title = forms.CharField(max_length=10)
     fname = forms.CharField(max_length=200)
@@ -17,28 +20,25 @@ class EditProfileForm(forms.Form):
     resid = forms.CharField(max_length=200)
 
 class addCourse(forms.Form):
-    year = forms.IntegerField()
+    startYear = forms.IntegerField()
+    endYear = forms.IntegerField()
     semester = forms.CharField(max_length=4)
     name = forms.CharField(max_length=200)
     course_code = forms.CharField(max_length=6)
-   # class Meta:
-   #     model = course
-   #     fields = (
-   #         'year',
-   #         'semester',
-   #         'name',
-   #         'course_code',
-   #        )
 
-   # def corr_data(self):
-   #     Course = course.objects.create()
-   #     Course.year = self.cleaned_data['year']
-   #     Course.semester = self.cleaned_data['semester']
-   #     Course.name = self.cleaned_data['name']
-   #     Course.course_code = self.cleaned_data['course_code']
-   #
-   #     return Course
+class eduForm(forms.Form):
+    college = forms.CharField(max_length=200)
+    degree = forms.CharField(max_length=50)
+    descrip = forms.CharField(max_length=200,widget=forms.Textarea)
+    startTime = forms.CharField(max_length=50)
+    endTime = forms.CharField(max_length=50)
 
+class exForm(forms.Form):
+    desig =forms.CharField(max_length=200)
+    firm = forms.CharField(max_length=200)
+    descrip = forms.CharField(max_length=200,widget=forms.Textarea)
+    startTime = forms.CharField(max_length=50)
+    endTime = forms.CharField(max_length=50)
 
 
 
