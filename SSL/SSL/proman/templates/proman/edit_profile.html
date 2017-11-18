@@ -58,7 +58,16 @@
             <a class="nav-link js-scroll-trigger" href="#exp">Add work Experience</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
+            <a class="nav-link js-scroll-trigger" href="#resInt">Interests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#project">Add Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#pub">Add Publications/Books</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#studs">Add Students</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
@@ -147,7 +156,6 @@
           </form>
         </div>
       </section>
-
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="course">
         <div class="my-auto">
           <h2 class="mb-0">Add Course:</h2>
@@ -190,7 +198,6 @@
           </form>
         </div>
        </section>
-
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
         <div class="my-auto">
           <h2 class="mb-0">Add Education:</h2>
@@ -275,18 +282,175 @@
           </form>
         </div>
       </section>
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="resInt">
+          <div class="my-auto">
+          <h2 class="mb-0">Add Your Research Interests:</h2>
+          <form class="form-horizontal"  method="POST" action="{% url 'add_Int' %}">{% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2 " for="descrip3">Description:</label>
+                 <div class="col-sm-4">
+                     <textarea class="form-control" name="descrip"  rows="15" id="descrip3" placeholder="Give Some Description..."></textarea>
+                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+          </form>
+        </div>
+</section>
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="project">
+        <div class="my-auto">
+          <h2 class="mb-0">Add Projects:</h2>
+          <form class="form-horizontal"  method="POST" action="{% url 'add_pro' %}">{% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="title2">Project Title:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="title2" placeholder="" name="title" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="fa">Funding Agency:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="fa" placeholder="" name="FundingAgency" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="pi">PI:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="pi" placeholder="" name="PI" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="syear">Start Year:</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control" id="syear" placeholder="" name="syear" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="fyear">Completion Year:</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control" id="fyear" placeholder="" name="fyear" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="pub">
+          <div class="my-auto">
+          <h2 class="mb-0">Add Publications:</h2>
+          <form class="form-horizontal"  method="POST" action="{% url 'add_pub' %}">{% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2 " for="descrip4">Description:</label>
+                 <div class="col-sm-4">
+                     <textarea class="form-control" name="descrip"  rows="5" id="descrip4" placeholder="Give Some Description..."></textarea>
+                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="my-auto">
+          <h2 class="mb-0">Add Books:</h2>
+          <form class="form-horizontal"  method="POST" action="{% url 'add_book' %}">{% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2 " for="descrip5">Description:</label>
+                 <div class="col-sm-4">
+                     <textarea class="form-control" name="descrip"  rows="5" id="descrip5" placeholder="Give Some Description..."></textarea>
+                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="studs">
+        <div class="my-auto">
+          <h2 class="mb-0">Add Continuing Students:</h2>
+          <form class="form-horizontal"  method="POST" action="{% url 'add_cons' %}">{% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="name3">Name of Student:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="name3" placeholder="" name="name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="degree3">Department:</label>
+                 <div class="col-sm-4">
+                  <select class="form-control" id="degree3" name="degree3" required>
+                    <option value selected="selected" >Select Degree</option>
+                    <option value="'Ph,D.'">Ph.D.</option>
+                    <option value="2">M.Tech.</option>
+                    <option value="3">B.Tech</option>
+                  </select>
+                 </div>
+                <!--<label class="control-label col-sm-2" for="degree3">Degree:</label>-->
 
-        <!-- Bootstrap core JavaScript -->
+                    <!--<input type="text" class="form-control" id="degree3" placeholder="" name="degree" required>-->
+                <!--</div>-->
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="my-auto">
+          <h2 class="mb-0">Add Completed Students:</h2>
+          <form class="form-horizontal"  method="POST" action="{% url 'add_coms' %}">{% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="name4">Name of Student:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="name4" placeholder="" name="name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="sv">Supervisor:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="sv" placeholder="" name="supervisor" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="tt">Thesis Title:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="tt" placeholder="" name="thesisTitle" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="degree4">Degree:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="degree4" placeholder="" name="degree" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+
         {% load static %}
         <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
         {% load static %}
         <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-        <!-- Plugin JavaScript -->
         {% load static %}
         <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-        <!-- Custom scripts for this template -->
         {% load static %}
         <script src="{% static 'js/resume.min.js' %}"></script>
     </div>

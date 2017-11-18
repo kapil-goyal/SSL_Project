@@ -86,11 +86,11 @@ class Project(models.Model):
         return self.title
 
 class Publication(models.Model):
-    description = models.CharField(max_length=500, blank=True)
+    descrip = models.CharField(max_length=500, blank=True)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
 
 class Book(models.Model):
-    description = models.CharField(max_length=500, blank=True)
+    descrip = models.CharField(max_length=500, blank=True)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
 
 class ContinuingStudent(models.Model):

@@ -2,11 +2,31 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm
-from .models import course, UserProfile, edu, workExp
+from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm,resIntform, proForm, pubForm, bookForm, comForm, conForm
+from .models import course, UserProfile, edu, workExp, resInt, Project, Book, Publication, CompletedStudent, ContinuingStudent, department
 
 def index(request):
-    return render(request,'proman/home.html'
+    dep = department.objects.all()
+    return render(request,'proman/home.html',{'dep_lis':dep}
+    )
+
+def vdep(request,id):
+    my_dep = department.objects.get(pk=id)
+    deps = department.objects.all()
+    facs = my_dep.userprofile_set.all()
+    return render(
+        request,
+        'proman/dept.html',
+        {'facs':facs,'my_dep':my_dep,'all_dep':deps}
+    )
+
+def vprof(request,pk1,pk2):
+    prof = UserProfile.objects.get(pk=pk2)
+    dep = department.objects.get(pk=pk1)
+    return render(
+        request,
+        'proman/view_prof.html',
+        {'prof':prof,'dep':dep}
     )
 
 def my_login(request):
@@ -142,6 +162,116 @@ def edit_profile_addexp(request):
             return redirect('/proman/profile/')
     else:
         form_edu = exForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )
+
+def edit_profile_addInt(request):
+    if request.method == 'POST':
+        form_edu = resIntform(request.POST)
+        instance = resInt.objects.create()
+        if form_edu.is_valid():
+            instance.descrip = form_edu.cleaned_data['descrip']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = resIntform()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )
+
+def edit_profile_addPro(request):
+    if request.method == 'POST':
+        form_edu = proForm(request.POST)
+        instance = Project.objects.create()
+        if form_edu.is_valid():
+            instance.syear = form_edu.cleaned_data['syear']
+            instance.fyear = form_edu.cleaned_data['fyear']
+            instance.PI = form_edu.cleaned_data['PI']
+            instance.FundingAgency = form_edu.cleaned_data['FundingAgency']
+            instance.title = form_edu.cleaned_data['title']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = proForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )
+
+def edit_profile_addPub(request):
+    if request.method == 'POST':
+        form_edu = pubForm(request.POST)
+        instance = Publication.objects.create()
+        if form_edu.is_valid():
+            instance.descrip = form_edu.cleaned_data['descrip']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = pubForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )
+
+def edit_profile_addBook(request):
+    if request.method == 'POST':
+        form_edu = bookForm(request.POST)
+        instance = Book.objects.create()
+        if form_edu.is_valid():
+            instance.descrip = form_edu.cleaned_data['descrip']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = bookForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )
+
+def edit_profile_addCons(request):
+    if request.method == 'POST':
+        form_edu = conForm(request.POST)
+        instance = ContinuingStudent.objects.create()
+        if form_edu.is_valid():
+            instance.name = form_edu.cleaned_data['name']
+            instance.degree = form_edu.cleaned_data['degree']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = conForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu}
+        )
+
+def edit_profile_addComs(request):
+    if request.method == 'POST':
+        form_edu = comForm(request.POST)
+        instance = CompletedStudent.objects.create()
+        if form_edu.is_valid():
+            instance.name = form_edu.cleaned_data['name']
+            instance.degree = form_edu.cleaned_data['degree']
+            instance.supervisor = form_edu.cleaned_data['supervisor']
+            instance.thesisTitle = form_edu.cleaned_data['thesisTitle']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        form_edu = comForm()
         return render (
             request,
             'proman/edit_profile.html',

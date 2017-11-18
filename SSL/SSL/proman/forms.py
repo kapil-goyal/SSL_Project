@@ -40,6 +40,30 @@ class exForm(forms.Form):
     startTime = forms.CharField(max_length=50)
     endTime = forms.CharField(max_length=50)
 
+class resIntform(forms.Form):
+    descrip = forms.CharField(max_length=200,widget=forms.Textarea)
 
+class pubForm(forms.Form):
+    descrip = forms.CharField(max_length=500,widget=forms.Textarea)
+
+class bookForm(forms.Form):
+    descrip = forms.CharField(max_length=500,widget=forms.Textarea)
+
+class conForm(forms.Form):
+    degree = forms.CharField(max_length=200)
+    name = forms.CharField(max_length=200)
+
+class comForm(forms.Form):
+    degree = forms.CharField(max_length=200)
+    name = forms.CharField(max_length=200)
+    supervisor = forms.CharField(max_length=200)
+    thesisTitle = forms.CharField(max_length=200)
+
+class proForm(forms.Form):
+    title = forms.CharField(max_length=200)
+    PI = forms.CharField(max_length=200)
+    FundingAgency = forms.CharField(max_length=200)
+    syear = forms.IntegerField()
+    fyear = forms.IntegerField()
 
 

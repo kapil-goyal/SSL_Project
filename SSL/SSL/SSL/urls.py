@@ -22,3 +22,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^proman/', include('proman.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+from django.views.generic import RedirectView
+urlpatterns += [
+    url(r'^$', RedirectView.as_view(url='/proman/', permanent=True)),
+]

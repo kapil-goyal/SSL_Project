@@ -26,7 +26,13 @@
     <img src="{% static 'login/iitg.png' %}" height="75px" align="left" >
     <h1 style="font-size:200%;margin-top:20px;">Indian Institute of Technology, Guwahati</h1>
 </header>
-  <!--<a class="view__more" href="http://machycek.com" target="_blank">view more</a>-->
+<br><br>
+  <a style="position: inherit;
+  padding: 20px 40px;
+  background: #616fa5;
+  color: #fff;
+  -webkit-transition: all .3s;
+  transition: all .3s;" href="{% url 'index'%}">Go back to Home</a>
 <div class="panel">
   <ul class="panel__menu" id="menu">
     <hr/>
@@ -56,7 +62,7 @@
       <label>Confirm password
         <input type="password" placeholder="Confirm Password" name="password2" />
       </label>
-      <input type="submit"/>
+      <input type="submit" value="Sign Up">
     </form>
     </div>
   </div>
