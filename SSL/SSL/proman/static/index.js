@@ -9,7 +9,6 @@ function removeSelection(){
     }
 }
 
-
 signIn.onclick = function(e){
   e.preventDefault();
   removeSelection();

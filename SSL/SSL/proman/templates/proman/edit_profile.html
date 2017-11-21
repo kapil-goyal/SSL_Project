@@ -103,52 +103,56 @@
           <form class="form-horizontal"  method="POST" action="{% url 'edit_profile' %}">{% csrf_token %}
             <div class="form-group">
                 <label class="control-label " for="title">Title:</label>
-                    <input type="text" class="form-control " id="title" placeholder="Pr./Dr." name="title" required>
+                    <input type="text" class="form-control " id="title" placeholder="Pr./Dr." name="title" value="{{user.userprofile.title}}" >
             </div>
             <div class="form-group">
                 <label class="control-label" for="fname">First Name:</label>
-                    <input type="text" class="form-control" id="fname" placeholder="First Name" name="fname" required>
+                    <input type="text" class="form-control" id="fname" placeholder="First Name" name="fname" value="{{user.userprofile.fname}}" >
             </div>
             <div class="form-group">
                 <label class="control-label" for="mname">Middle Name:</label>
-                    <input type="text" class="form-control" id="mname" placeholder="Middle Name" name="mname" required>
+                    <input type="text" class="form-control" id="mname" placeholder="Middle Name" name="mname" value="{{user.userprofile.mname}}" >
             </div>
             <div class="form-group">
                 <label class="control-label for="lname">Last Name:</label>
-                    <input type="text" class="form-control" id="lname" placeholder="Last Name" name="lname" required>
+                    <input type="text" class="form-control" id="lname" placeholder="Last Name" name="lname" value="{{user.userprofile.lname}}" >
             </div>
             <div class="form-group">
                 <label class="control-label" for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="Email" name="email" required>
+                    <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="{{user.userprofile.email}}" >
             </div>
             <div class="form-group">
               <label class="control-label" for="id_dep">Department:</label>
               <select class="form-control" id="id_dep" name="dep" required>
-                <option value selected="selected" >Select Department</option>
-                <option value="1">Computer Science and Engineering</option>
-                <option value="2"></option>
-                <option value="3"></option>
+              {% if user.userprofile.dep != "" %}
+                <option value="{{ user.userprofile.dep.id }}" selected="selected" >{{ user.userprofile.dep.dep_name }}</option>
+              {% else %}
+                   <option value= selected="selected" >Select Department</option>
+              {% endif %}
+              {% for each_dep in dep_list %}
+                <option value="{{each_dep.id}}">{{each_dep.dep_name}}</option>
+              {% endfor %}
               </select>
             </div>
             <div class="form-group">
                 <label class="control-label" for="desig">Designation: </label>
-                    <input type="text" class="form-control" id="desig" placeholder="Designation" name="desig" required>
+                    <input type="text" class="form-control" id="desig" placeholder="Designation" name="desig" value="{{user.userprofile.desig}}" >
             </div>
             <div class="form-group">
                <label class="control-label " for="id_descrip">Description:</label>
-                     <textarea class="form-control" name="descrip" rows="5" id="id_descrip"></textarea>
+                     <textarea class="form-control" name="descrip" rows="5"  id="id_descrip">{{ user.userprofile.descrip }}</textarea>
             </div>
             <div class="form-group">
                 <label class="control-label" for="office">Office: </label>
-                    <input type="text" class="form-control" id="office" placeholder="Office No." name="office" required>
+                    <input type="text" class="form-control" id="office" placeholder="Office No." name="office" value="{{user.userprofile.office}}" >
             </div>
             <div class="form-group">
                 <label class="control-label" for="phn_no">Phone No.: </label>
-                    <input type="number" class="form-control" id="phn_no" placeholder="Must contain numbers only" name="phn_no" required>
+                    <input type="number" class="form-control" id="phn_no" placeholder="Must contain numbers only" name="phn_no" value="{{user.userprofile.phn_no}}" >
             </div>
             <div class="form-group">
                 <label class="control-label" for="resid">Residence: </label>
-                    <input type="text" class="form-control" id="resid" placeholder="Residence" name="resid" required>
+                    <input type="text" class="form-control" id="resid" placeholder="Residence" name="resid" value="{{user.userprofile.resid}}" >
             </div>
             <div class="form-group">
                     <button type="submit" class="btn btn-default">Submit</button>
@@ -387,19 +391,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2" for="degree3">Department:</label>
+                <label class="control-label col-sm-2" for="degree3">Degree:</label>
                  <div class="col-sm-4">
-                  <select class="form-control" id="degree3" name="degree3" required>
+                  <select class="form-control" id="degree3" name="degree" required>
                     <option value selected="selected" >Select Degree</option>
-                    <option value="'Ph,D.'">Ph.D.</option>
-                    <option value="2">M.Tech.</option>
-                    <option value="3">B.Tech</option>
+                    <option value="1">Ph.D.</option>
+                    <option value="3">M.Tech.</option>
+                    <option value="2">B.Tech</option>
                   </select>
                  </div>
-                <!--<label class="control-label col-sm-2" for="degree3">Degree:</label>-->
-
-                    <!--<input type="text" class="form-control" id="degree3" placeholder="" name="degree" required>-->
-                <!--</div>-->
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -431,9 +431,14 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="degree4">Degree:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="degree4" placeholder="" name="degree" required>
-                </div>
+                 <div class="col-sm-4">
+                  <select class="form-control" id="degree4" name="degree" required>
+                    <option value selected="selected" >Select Degree</option>
+                    <option value="1">Ph.D.</option>
+                    <option value="3">M.Tech.</option>
+                    <option value="2">B.Tech</option>
+                  </select>
+                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -443,7 +448,24 @@
           </form>
         </div>
       </section>
-
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
+          <div class="my-auto">
+          <h2 class="mb-0">Add Awards/Recognitions:</h2>
+          <form class="form-horizontal"  method="POST" action="{% url 'add_awd' %}">{% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2 " for="descrip6">Description:</label>
+                 <div class="col-sm-4">
+                    <input type="text" class="form-control" id="descrip6" placeholder="" name="descrip" required>
+                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+          </form>
+        </div>
+</section>
 
         {% load static %}
         <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>

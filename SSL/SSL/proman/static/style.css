@@ -123,6 +123,7 @@ a {
 .panel__box.active {
   background: #fff;
   z-index: 2;
+  height:200%;
 }
 .panel__box.active label, .panel__box.active input {
   opacity: 1;

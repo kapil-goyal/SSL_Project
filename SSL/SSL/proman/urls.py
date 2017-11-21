@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^edit-profile-apub/$', views.edit_profile_addPub, name='add_pub'),
     url(r'^edit-profile-acon/$', views.edit_profile_addCons, name='add_cons'),
     url(r'^edit-profile-acom/$', views.edit_profile_addComs, name='add_coms'),
+    url(r'^edit-profile-awd/$', views.edit_profile_addawd, name='add_awd'),
     url(r'^logout/$', logout, {'template_name': 'proman/login.html'}, name='logout'),
     url(r'^register/$', views.register, name='register'),
 

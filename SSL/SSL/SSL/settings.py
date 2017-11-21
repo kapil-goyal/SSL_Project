@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'captcha'
     'proman.apps.PromanConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -114,6 +115,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+RECAPTCHA_PUBLIC_KEY = '6LezZzkUAAAAAJL0gzA3mx7kHXGjojx4zaGwnDm-'
+RECAPTCHA_PRIVATE_KEY = '6LezZzkUAAAAAPJfeiDGav2mOKDYdnfWD8G-sRWl'
+NOCAPTCHA = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

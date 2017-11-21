@@ -2,8 +2,12 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm,resIntform, proForm, pubForm, bookForm, comForm, conForm
-from .models import course, UserProfile, edu, workExp, resInt, Project, Book, Publication, CompletedStudent, ContinuingStudent, department
+from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm,resIntform, proForm, pubForm, bookForm, comForm, conForm, awdForm
+from .models import course, UserProfile, edu, workExp, resInt, Project, Book, Publication, CompletedStudent, ContinuingStudent, department, award
+import urllib
+import urllib2
+import json
+from django.conf import settings
 
 def index(request):
     dep = department.objects.all()
@@ -33,26 +37,55 @@ def my_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        values = {
+            'secret': settings.RECAPTCHA_PRIVATE_KEY,
+            'response': recaptcha_response
+        }
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)
+        result = json.load(response)
         user = authenticate(username=username, password=password)
-        if user is not None:
+        if user is not None and result['success']:
             login(request, user)
             return redirect('/proman/profile/')
         else:
-            return redirect('/proman/login/')
+            url = '/proman/login/'
+            resp_body = '<script>alert("Invalid User");\
+                                    window.location="%s"</script>' % url
+            return HttpResponse(resp_body)
     else:
         return render(request, 'proman/login.html')
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse("<script>alert('Registration Succesful');</script>")
+        form_sig = UserCreationForm(request.POST)
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        values = {
+            'secret': settings.RECAPTCHA_PRIVATE_KEY,
+            'response': recaptcha_response
+        }
+        data = urllib.urlencode(values)
+        req = urllib2.Request(url, data)
+        response = urllib2.urlopen(req)
+        result = json.load(response)
+        if form_sig.is_valid() and result['success'] :
+            form_sig.save()
+            url = '/proman/login/'
+            resp_body = '<script>alert("Congratulations! You have successfully registered. Now login and add your details.");\
+                                     window.location="%s"</script>' % url
+            return HttpResponse(resp_body)
         else:
-            return HttpResponse("<script>alert('InvalidUser');</script>")
+            url = '/proman/login/'
+            resp_body = '<script>alert("Invalid details");\
+                         window.location="%s"</script>' % url
+            return HttpResponse(resp_body)
     else:
-        form = UserCreationForm()
-        args = {'form': form}
+        form_sig = UserCreationForm()
+        args = {'form_sig': form_sig}
         return render(request, 'proman/login.html', args)
 
 def view_profile(request):
@@ -88,11 +121,13 @@ def edit_profile(request):
         # else:
         #     return redirect('/proman/edit-profile/')
     else:
+        deps = department.objects.all()
+        # mydep = department.objects.get(department.userprofile_set.objects.get(pk=request.user.userprofile.id))
         form = EditProfileForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form' : form}
+            {'form' : form, 'dep_list' : deps}
         )
 
 def upload_pic(request):
@@ -119,11 +154,12 @@ def edit_profile_addcourse(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form = addCourse()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form' : form}
+            {'form' : form,'dep_list' : deps}
         )
 
 def edit_profile_addedu(request):
@@ -140,11 +176,12 @@ def edit_profile_addedu(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = eduForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
         )
 
 def edit_profile_addexp(request):
@@ -161,11 +198,12 @@ def edit_profile_addexp(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = exForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
         )
 
 def edit_profile_addInt(request):
@@ -178,11 +216,12 @@ def edit_profile_addInt(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = resIntform()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
         )
 
 def edit_profile_addPro(request):
@@ -199,11 +238,12 @@ def edit_profile_addPro(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = proForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
         )
 
 def edit_profile_addPub(request):
@@ -216,11 +256,12 @@ def edit_profile_addPub(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = pubForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
         )
 
 def edit_profile_addBook(request):
@@ -233,11 +274,12 @@ def edit_profile_addBook(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = bookForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
         )
 
 def edit_profile_addCons(request):
@@ -251,11 +293,12 @@ def edit_profile_addCons(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = conForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
         )
 
 def edit_profile_addComs(request):
@@ -271,9 +314,28 @@ def edit_profile_addComs(request):
             instance.save()
             return redirect('/proman/profile/')
     else:
+        deps = department.objects.all()
         form_edu = comForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu}
+            {'form_edu' : form_edu,'dep_list' : deps}
+        )
+
+def edit_profile_addawd(request):
+    if request.method == 'POST':
+        form_edu = awdForm(request.POST)
+        instance = award.objects.create()
+        if form_edu.is_valid():
+            instance.descrip = form_edu.cleaned_data['descrip']
+            instance.user = request.user.userprofile
+            instance.save()
+            return redirect('/proman/profile/')
+    else:
+        deps = department.objects.all()
+        form_edu = awdForm()
+        return render (
+            request,
+            'proman/edit_profile.html',
+            {'form_edu' : form_edu,'dep_list' : deps}
         )

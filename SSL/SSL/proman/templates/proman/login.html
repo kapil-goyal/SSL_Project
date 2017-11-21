@@ -2,7 +2,7 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>Login / Signup</title>
   <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 
@@ -17,7 +17,24 @@
         text-align: center;
         }
 </style>
-  
+ <script src="https://www.google.com/recaptcha/api.js?onload=myCallBack&render=explicit" async defer></script>
+    <script>
+      var recaptcha1;
+      var recaptcha2;
+      var myCallBack = function() {
+        //Render the recaptcha1 on the element with ID "recaptcha1"
+        recaptcha1 = grecaptcha.render('recaptcha1', {
+          'sitekey' : '6LezZzkUAAAAAJL0gzA3mx7kHXGjojx4zaGwnDm-', //Replace this with your Site key
+        });
+
+        //Render the recaptcha2 on the element with ID "recaptcha2"
+        recaptcha2 = grecaptcha.render('recaptcha2', {
+          'sitekey' : '6LezZzkUAAAAAJL0gzA3mx7kHXGjojx4zaGwnDm-', //Replace this with your Site key
+
+        });
+      };
+    </script>
+
 </head>
 
 <body>
@@ -40,34 +57,42 @@
     <li id="signUp"><a href="#">Sign up</a></li>
   </ul>
   <div class="panel__wrap">
-       <div class="panel__box active" id="signInBox">
-     <form action="/proman/login/" method="POST">{% csrf_token %}
-      <label>Username
-        <input type="email" placeholder="Username" name="username" />
+
+      <!--<div >-->
+       <div class="panel__box active" id="signInBox" style="width: 350px !important;">
+           <div style="height:280px !important;">
+     <form action="/proman/login/" method="POST">{% csrf_token %}{{ form.errors }}
+      <label style="margin-bottom:10px">Username
+        <input type="email" placeholder="Username" name="username" required />
+      </label >
+      <label style="margin-bottom:10px">Password
+        <input type="password" placeholder="Password" name="password"required />
       </label>
-      <label>Password
-        <input type="password" placeholder="Password" name="password" />
-      </label>
-      <input type="submit" value="Login"/>
+
+        <div id="recaptcha1"></div>
+
+      <input type="submit" value="Login"  style="margin-top:90px !important;">
      </form>
-       </div>
-    <div class="panel__box" id="signUpBox">
+           </div></div>
+    <div class="panel__box" id="signUpBox" style="width: 350px !important;">
     <form action="/proman/register/" method="POST">{% csrf_token %}
-      <label>Username
-        <input type="email" placeholder="Webmail ID" name="username" />
+        {{ form_sig.errors }}
+      <label style="margin-bottom:10px">Username
+        <input type="email" placeholder="Webmail ID" name="username" required />
+      </label >
+      <label style="margin-bottom:10px">Password
+        <input type="password" placeholder="Create Password" name="password1" required/>
       </label>
-      <label>Password
-        <input type="password" placeholder="Create Password" name="password1" />
+      <label style="margin-bottom:10px">Confirm password
+        <input type="password" placeholder="Confirm Password" name="password2" required />
       </label>
-      <label>Confirm password
-        <input type="password" placeholder="Confirm Password" name="password2" />
-      </label>
-      <input type="submit" value="Sign Up">
+
+        <div id="recaptcha2"></div>
+      <input type="submit" value="Sign Up"   style="margin-top:90px !important;">
     </form>
     </div>
   </div>
 </div>
-
     {% load staticfiles %}
     <script  src="{% static 'index.js' %}"></script>
 
