@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm,resIntform, proForm, pubForm, bookForm, comForm, conForm, awdForm
+from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm,resIntform, proForm, pubForm, bookForm, comForm, conForm, awdForm, delcourse
 from .models import course, UserProfile, edu, workExp, resInt, Project, Book, Publication, CompletedStudent, ContinuingStudent, department, award
 import urllib
 import urllib2
@@ -117,17 +117,18 @@ def edit_profile(request):
             inst.phn_no = form.cleaned_data['phn_no']
             inst.resid = form.cleaned_data['resid']
             inst.save()
-            return redirect('/proman/profile/')
-        # else:
-        #     return redirect('/proman/edit-profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
-        # mydep = department.objects.get(department.userprofile_set.objects.get(pk=request.user.userprofile.id))
         form = EditProfileForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form' : form, 'dep_list' : deps}
+            {'form' : form, 'dep_list' : deps, 'user':request.user}
         )
 
 def upload_pic(request):
@@ -137,7 +138,11 @@ def upload_pic(request):
             m = UserProfile.objects.get(user=request.user)
             m.image = form.cleaned_data['image']
             m.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     # return HttpResponseForbidden('allowed only via POST')
 
 def edit_profile_addcourse(request):
@@ -152,14 +157,35 @@ def edit_profile_addcourse(request):
             instance.course_code = form.cleaned_data['course_code']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form = addCourse()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form' : form,'dep_list' : deps}
+            {'form' : form,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delcourse(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = course.objects.get(pk = request.POST['del_course'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addedu(request):
@@ -174,14 +200,35 @@ def edit_profile_addedu(request):
             instance.endTime = form_edu.cleaned_data['endTime']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = eduForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_deledu(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = edu.objects.get(pk = request.POST['del_edu'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addexp(request):
@@ -196,14 +243,35 @@ def edit_profile_addexp(request):
             instance.endTime = form_edu.cleaned_data['endTime']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = exForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delexp(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = workExp.objects.get(pk = request.POST['del_exp'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addInt(request):
@@ -214,14 +282,35 @@ def edit_profile_addInt(request):
             instance.descrip = form_edu.cleaned_data['descrip']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = resIntform()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delint(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = resInt.objects.get(pk = request.POST['del_int'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addPro(request):
@@ -236,14 +325,35 @@ def edit_profile_addPro(request):
             instance.title = form_edu.cleaned_data['title']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = proForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delpro(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = Project.objects.get(pk = request.POST['del_pro'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addPub(request):
@@ -254,14 +364,35 @@ def edit_profile_addPub(request):
             instance.descrip = form_edu.cleaned_data['descrip']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = pubForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delpub(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = Publication.objects.get(pk = request.POST['del_pub'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addBook(request):
@@ -272,14 +403,35 @@ def edit_profile_addBook(request):
             instance.descrip = form_edu.cleaned_data['descrip']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = bookForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delebook(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = Book.objects.get(pk = request.POST['del_book'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addCons(request):
@@ -291,14 +443,35 @@ def edit_profile_addCons(request):
             instance.degree = form_edu.cleaned_data['degree']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = conForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delcons(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = ContinuingStudent.objects.get(pk = request.POST['del_cons'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addComs(request):
@@ -312,14 +485,35 @@ def edit_profile_addComs(request):
             instance.thesisTitle = form_edu.cleaned_data['thesisTitle']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = comForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delcoms(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = CompletedStudent.objects.get(pk = request.POST['del_coms'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )
 
 def edit_profile_addawd(request):
@@ -330,12 +524,33 @@ def edit_profile_addawd(request):
             instance.descrip = form_edu.cleaned_data['descrip']
             instance.user = request.user.userprofile
             instance.save()
-            return redirect('/proman/profile/')
+            return render(
+                request,
+                'proman/edit_profile.html',
+                {'user': request.user}
+            )
     else:
         deps = department.objects.all()
         form_edu = awdForm()
         return render (
             request,
             'proman/edit_profile.html',
-            {'form_edu' : form_edu,'dep_list' : deps}
+            {'form_edu' : form_edu,'dep_list' : deps, 'user':request.user}
+        )
+
+def edit_profile_delawd(request):
+    deps = department.objects.all()
+    if request.method == 'POST':
+        instance = award.objects.get(pk = request.POST['del_awd'])
+        instance.delete()
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'user': request.user}
+        )
+    else:
+        return render(
+            request,
+            'proman/edit_profile.html',
+            {'dep_list': deps, 'user':request.user}
         )

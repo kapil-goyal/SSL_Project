@@ -59,7 +59,7 @@
   <div class="panel__wrap">
 
       <!--<div >-->
-       <div class="panel__box active" id="signInBox" style="width: 350px !important;">
+       <div class="panel__box active" id="signInBox" style="width: 350px !important;height: 300px !important;">
            <div style="height:280px !important;">
      <form action="/proman/login/" method="POST">{% csrf_token %}{{ form.errors }}
       <label style="margin-bottom:10px">Username
@@ -74,8 +74,8 @@
       <input type="submit" value="Login"  style="margin-top:90px !important;">
      </form>
            </div></div>
-    <div class="panel__box" id="signUpBox" style="width: 350px !important;">
-    <form action="/proman/register/" method="POST">{% csrf_token %}
+    <div class="panel__box" id="signUpBox" style="width: 350px !important;height: 360px !important;">
+        <form action="/proman/register/" method="POST">{% csrf_token %}
         {{ form_sig.errors }}
       <label style="margin-bottom:10px">Username
         <input type="email" placeholder="Webmail ID" name="username" required />
@@ -91,8 +91,9 @@
       <input type="submit" value="Sign Up"   style="margin-top:90px !important;">
     </form>
     </div>
+    </div>
   </div>
-</div>
+
     {% load staticfiles %}
     <script  src="{% static 'index.js' %}"></script>
 

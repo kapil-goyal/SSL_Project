@@ -28,6 +28,9 @@ class addCourse(forms.Form):
     name = forms.CharField(max_length=200)
     course_code = forms.CharField(max_length=6)
 
+class delcourse(forms.Form):
+    del_course = forms.ModelChoiceField(queryset=course.objects.all())
+
 class eduForm(forms.Form):
     college = forms.CharField(max_length=200)
     degree = forms.CharField(max_length=50)
