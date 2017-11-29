@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from .forms import EditProfileForm, addCourse, ImageUploadForm, eduForm, exForm,resIntform, proForm, pubForm, bookForm, comForm, conForm, awdForm, delcourse
 from .models import course, UserProfile, edu, workExp, resInt, Project, Book, Publication, CompletedStudent, ContinuingStudent, department, award
+from .crawl import promoter
 import urllib
 import urllib2
 import json
@@ -58,6 +61,22 @@ def my_login(request):
             return HttpResponse(resp_body)
     else:
         return render(request, 'proman/login.html')
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('view_profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'proman/change_password.html', {
+        'form': form
+    })
 
 def register(request):
     if request.method == 'POST':
@@ -554,3 +573,17 @@ def edit_profile_delawd(request):
             'proman/edit_profile.html',
             {'dep_list': deps, 'user':request.user}
         )
+
+def updater(request):
+    deps = department.objects.all()
+    userprofile = promoter(request.user)
+    if request.method == 'POST':
+        inst = UserProfile.objects.get(user=request.user)
+        userprofile.save()
+        inst.desig = userprofile.desig
+        inst.save()
+    return render(
+        request,
+        'proman/edit_profile.html',
+        {'dep_list': deps, 'user': request.user}
+    )
